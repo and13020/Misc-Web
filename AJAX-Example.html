@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<head>
+  <title>AJAX Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    h1
+    {
+      width: 50%;
+      margin-left: 25%;
+    }
+    div
+    {
+      width: 50%;
+      margin-left: 25%;
+      border: 2px solid gray;
+    }
+    p
+    {
+      margin-left: 25%;
+    }
+  </style>
+  <script>
+  function loadDoc()
+  {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/studentList.html", true);
+    xhttp.send();
+  }
+  
+  function loadDoc2()
+  {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/studentList1.html", true);
+    xhttp.send();
+  }
+
+  function loadDoc3(){
+    var input = getElementById("fileName");
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "input", true);
+    xhttp.send();
+  }   
+  </script>
+</head>
+<body>
+  <h1>AJAX testing</h1><br/>
+  <div id="demo"></div><br/>
+  <button type="button" onclick="loadDoc();" style="margin-left: 25%">Load List 1</button>
+  <button type="button" onclick="loadDoc2();">Load List 2</button><br/><br/>
+  <p>Enter File Name: <input type="text" id="fileName"></p>
+</body>
+</html>

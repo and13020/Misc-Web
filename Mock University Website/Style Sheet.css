@@ -1,0 +1,69 @@
+﻿header 
+{
+  text-align: center; 
+  background-color: black; 
+  color: white; 
+  height: auto; 
+  font-size: 30px;
+  position: relative;
+}
+
+p, h2
+{
+  padding: 10px;
+}
+
+footer
+{
+  text-align: center;
+  background-color: black;
+  color: white;
+  height: auto;
+}
+
+.flex-container
+{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  background-color: lightblue;
+}
+    
+.flex-container > div
+{
+  background-color: #f1f1f1;
+  width: 22%;
+  margin: 10px;
+  text-align: left;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+img
+{
+  max-width: auto;
+  width: 500px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding: 10px;
+}
+    
+table
+{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.logo
+{
+  border: 1px light gray;
+  margin-left: 50px;
+  max-width: auto;
+  width: 50px;
+  height: auto;
+  display: inline;
+  float: left;
+}

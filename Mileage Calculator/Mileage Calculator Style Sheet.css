@@ -1,0 +1,25 @@
+﻿  body
+{
+   background-color: lavenderblush;
+   width: 50%;
+   margin-left: 20%;
+   text-align: left;
+}
+
+.red
+{
+  color: red;
+}
+
+h1, h2
+{
+   font-family: timesnewroman;
+   color: saddlebrown;
+}
+
+td, th
+{
+   border: 1px solid black;
+   padding: 1px;
+}
+ 

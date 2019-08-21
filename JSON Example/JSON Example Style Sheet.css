@@ -1,0 +1,15 @@
+﻿    h1, textarea {
+      width: 50%;
+      margin-left: 25%;
+      text-align: center;
+    }
+    
+    div {
+      width: 50%;
+      margin-left: 25%;
+      border: 2px solid gray;
+    }
+    
+    p, pre{
+      margin-left: 25%;
+    }

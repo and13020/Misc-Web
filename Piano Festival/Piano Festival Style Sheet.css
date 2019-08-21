@@ -1,0 +1,24 @@
+﻿body
+{
+   background-color: lavenderblush;
+   width: 50%;
+   margin-left: 25%;
+   text-align: center;
+}
+
+h1
+{
+   font-family: timesnewroman;
+   color: saddlebrown;
+}
+
+table
+{
+   font-family: sanserif;
+}
+
+td, th
+{
+   border: 1px solid black;
+   padding: 5px;
+}

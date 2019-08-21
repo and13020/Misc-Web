@@ -1,0 +1,21 @@
+﻿<?php
+  $firstname = $_GET["firstName"];
+  $lastname  = $_GET["lastName"];
+  $id        = $_GET["id"];
+  $firstname2 = $_GET["firstName2"];
+  $lastname2  = $_GET["lastName2"];
+  $id2        = $_GET["id2"];
+  $type       = $_GET["type"];
+  $level      = $_GET["level"];
+  $instrument = $_GET["instrument"];
+  $location   = $_GET["location"];
+  $room       = $_GET["room"];
+  $time       = $_GET["time"];
+  $text = $firstname . " " . $lastname . " " . $id . " " . $firstname2 
+    . " " . $lastname2 . " " . $id2 . " " . $type . " " . $level . " " 
+    . $instrument . " " . $location . " " . $room . " " . $time;
+  $myFile = fopen('listMusicians.txt', 'a+');
+  echo $text;
+  fwrite($myFile, $text);
+  fclose($myFile);
+?>

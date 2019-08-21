@@ -1,0 +1,67 @@
+﻿<?php
+  $firstname = $_GET["firstname"];
+  $lastname  = $_GET["lastname"];
+  $address   = $_GET["address"];
+  $phone     = $_GET["phone"];
+  $food      = $_GET["food"];
+  $card      = $_GET["card"];
+  $cardNumber= $_GET["cardNumber"];
+  $cardExp   = $_GET["cardExpirationDate"];
+  $sizeOfFood= sizeof($food);
+  $totalCost;
+?>
+
+<html>
+<head>
+  <title>Payment Form PHP 1</title>
+  <link type="text/css" rel="stylesheet" href="assign05style.css">
+</head>
+<body>
+  <h1>Payment Form</h1>
+  <form action="assign10_a.php" method="get" id="form" name="form">
+  <h2><?php echo $firstname . " " . $lastname; ?>
+  <p><?php echo "Please ensure the following information is correct before purchasing: "; ?>
+  <table>
+    <tr>
+      <td>Address:</td>
+      <td><?php echo $address; ?>
+    </tr>
+    <tr>
+      <td>Phone:</td>
+      <td><?php echo $phone; ?>
+    </tr>
+    <tr>
+      <td>Order:
+      <td><?php for ($x = 0; $x < $sizeOfFood; $x++) {
+              switch($food[$x]){
+                case fries:
+                  echo "Fries. ";
+                  $totalCost += 1;
+                  break;
+                case kidsMeal:
+                  echo "Kids meal. ";
+                  $totalCost += 2.5;
+                  break;
+                case adultsMeal:
+                  echo "Adults meal. ";
+                  $totalCost += 6.5;
+                  break;
+                case drink:
+                  echo "Drink. ";
+                  $totalCost += 1.25;
+                  break;
+              }
+            }?>
+    </tr>
+    <tr>
+      <td><?php echo $card; ?>
+      <td><?php echo "Expires: " . $cardExp; ?>
+    </tr>
+  </table>
+  <p>Your order has come out to $<?php echo $totalCost; ?> , do you wish to purchase?</p>
+  
+  <input type="submit" name="form1" value="Submit">
+  <input type="submit" name="form2" value ="Cancel"><br/>
+  </form>
+</body>
+</html>

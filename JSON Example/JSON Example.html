@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<head>
+  <title>JSON Monitor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="assign08style.css">
+  <script>
+  function loadUSA()
+  {
+    document.getElementById("boxDefine").innerHTML = "       City:               Population:";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("cities").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/usa.txt", true);
+    xhttp.send();
+  }  
+  
+  function loadMexico()
+  {
+    document.getElementById("boxDefine").innerHTML = "       City:               Population:";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("cities").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/mexico.txt", true);
+    xhttp.send();
+  }
+  
+    function loadCanada()
+  {
+    document.getElementById("boxDefine").innerHTML = "       City:               Population:";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("cities").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/canada.txt", true);
+    xhttp.send();
+  }  
+  
+  function loadRussia()
+  {  
+    document.getElementById("boxDefine").innerHTML = "       City:               Population:";
+    document.getElementById("boxDefine").innerHTML = "  Students:";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("cities").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/russia.txt", true);
+    xhttp.send();
+  }
+  
+  function loadCustom()
+  {
+    document.getElementById("boxDefine").innerHTML = "         Students:";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        document.getElementById("cities").innerHTML = myObj.students[1].first;
+        var x = "";
+        var i = "";
+        for (i in myObj.students) {
+          x += myObj.students[i].first + " ";
+          x += myObj.students[i].last + " - ";
+          x += myObj.students[i].address.city + ", ";
+          x += myObj.students[i].address.state + " ";
+          x += myObj.students[i].address.zip + "&#10";
+          x += myObj.students[i].major + " ";
+          x += myObj.students[i].gpa + "&#10";
+        }
+        document.getElementById("cities").innerHTML = x;
+        
+        var fileName;
+        fileName = document.getElementById("fileName").innerHTML;
+        document.getElementById("current").innerHTML = fileName;
+        
+        
+      }
+    };
+    xhttp.open("GET", "http://157.201.194.254/~ercanbracks/json.txt", true);
+    xhttp.send();
+  }
+  </script>
+</head>
+<body>
+  <h1>Population by Cities</h1><br/>
+  <pre id="boxDefine">       City:               Population:</pre>
+  <textarea rows="12" cols="50" readonly id="cities"></textarea><br/>
+  <button type="button" onclick="loadUSA();" style="margin-left: 25%">USA</button>
+  <button type="button" onclick="loadCustom();">Custom</button>
+  <button type="button" onclick="loadMexico();">Mexico</button>
+  <button type="button" onclick="loadCanada();">Canada</button>
+  <button type="button" onclick="loadRussia();">Russia</button><br/><br/>
+  Enter File Name: <input type="text" placeholder="json.txt" id="fileName"><button type="button" onclick="loadCustom();">Load</button>
+  <p id="current">Replace current to here:</p>
+</body>
+</html>

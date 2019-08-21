@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <link type="text/css" rel="stylesheet" href="assign12style.css">
+  <title>Piano Festival</title>
+  <script type="text/javascript">
+  <!-- Only allows second student in duet -->
+  function secondStudent() {
+    var type = document.getElementById("type").value;
+    if(type == "Duet") {
+      document.getElementById("sStudent").style.display = 'table-row'; }
+    else {
+      document.getElementById("sStudent").style.display = 'none'; } }
+    
+  <!-- Performs Ajax methods -->
+  function getAndAdd() {
+    sendAjax();
+    getAjax(); }
+  
+  <!-- Retrieves text and displays it -->
+  function getAjax() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        var total = this.responseText;
+        var table = "<tr><td>First Name</td><td>Last Name</td><td>ID</td><td>Time</td></tr>";
+        var newTotal = total.split(" ");
+        var reserve = "";
+        for(var i = 0; i < newTotal.length; i++) { <!-- -->
+            table+="<td>"+newTotal[i]+"</td>";
+        }
+        document.getElementById("testing").innerHTML = table;
+      }
+    };
+    xhttp.open("GET", "listMusicians.txt", true);
+    xhttp.send();
+    secondStudent(); }
+  
+  <!-- Saves text -->
+  function sendAjax() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {  }
+    };
+    var textArea = document.getElementById("form");
+    var formData = new FormData();
+    formData.append("data", textArea.value);
+    xhttp.send(formData); }
+    
+  <!-- Resets the form -->
+  function clearForm() {
+    document.getElementById("form").reset(); }
+  
+  <!-- Validates information -->
+  function validate() {
+    if(validateName() == false) { return false; }
+    return true;
+  }
+  
+  <!-- P1 validates student one -->
+  function validateName() {
+    var first = document.getElementById("firstName").value;
+    var last  = document.getElementById("lastName").value;
+    var id    = document.getElementById("id").value;
+
+    <!-- validate musician -->
+    var firstMatch = first.search(/\w{2,}/);
+    if(firstMatch == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid first name"; return false; }
+    var lastMatch  = last.search(/\w{2,}/);
+    if(lastMatch == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid last name"; return false; }
+    var idMatch  = id.search(/\d{6}/);
+    if(idMatch == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid id (XXXXXX)"; return false; }
+    
+    <!-- validate second potential musician -->
+    var type = document.getElementById("type").value;
+    if(type == "Duet") { 
+      var first2 = document.getElementById("firstName2").value;
+      var last2  = document.getElementById("lastName2").value;
+      var id2    = document.getElementById("id2").value;
+      var firstMatch2 = first2.search(/\w{2,}/);
+      var lastMatch2  = last2.search(/\w{2,}/);
+      var idMatch2    = id2.search(/\d{6}/);
+      if(firstMatch2 == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid first name"; return false; }
+      if(lastMatch2 == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid last name"; return false; }
+      if(idMatch2 == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid id (XXXXXX)"; return false; }
+    }
+    
+    <!-- validate performance information -->
+    var level      = document.getElementById("level").value;
+    var instrument = document.getElementById("instrument").value;
+    var location   = document.getElementById("location").value;
+    var time       = document.getElementById("time").value;
+    if(type == "select") {
+      document.getElementById("testing2").innerHTML = "Please select a performance type"; return false;
+    }
+    if(level == "select") {
+      document.getElementById("testing2").innerHTML = "Please select a skill level"; return false;
+    }    
+    if(instrument == "select") {
+      document.getElementById("testing2").innerHTML = "Please select an instrument"; return false;
+    }    
+    if(location == "select") {
+      document.getElementById("testing2").innerHTML = "Please select a location"; return false;
+    }
+    if(time == "select") {
+      document.getElementById("testing2").innerHTML = "Please select a time"; return false;
+    }
+    
+    var room = document.getElementById("room").value;
+    var roomMatch = room.search(/\d{3}/);
+    if(roomMatch == "-1") { document.getElementById("testing2").innerHTML = "Please enter a valid room (XXX)"; return false; }
+    
+  }
+  
+  </script>
+</head>
+<body onload="getAjax()">
+  <h1>Piano Festival</h1>
+  <form action="assign12.php" id="form" name="form" method="get" onsubmit="return validate();">
+  <table>
+    <tr>
+      <td>First Name</td>
+      <td><input type=text name="firstName" id="firstName"></td>
+      <td>Last Name</td>
+      <td><input type=text name="lastName" id="lastName"></td>
+      <td>Student ID</td>
+      <td><input type=text name="id" id="id"></td>
+    </tr>
+
+    <tr id="sStudent">
+      <td>First Name</td>
+      <td><input type=text name="firstName2" id="firstName2"></td>
+      <td>Last Name</td>
+      <td><input type=text name="lastName2" id="lastName2"></td>
+      <td>Student ID</td>
+      <td><input type=text name="id2" id="id2"></td>
+    </tr>
+    <!-- end of second student -->
+    
+    <tr>
+      <td>Performance Type</td>
+      <td><select id="type" name="type" onchange="secondStudent()">
+          <option value="select" selected>Select:</option>
+          <option value="Solo">Solo</option>
+          <option value="Duet">Duet</option>
+          <option value="Concerto">Concerto</option></select>
+      </td>
+      <td>Skill Level</td>
+      <td><select name="level" id="level">
+          <option value="select" selected>Select:</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="preAdvanced">Pre-Advanced</option>
+          <option value="advanced">Advanced</option>
+      </td>
+      <td>Instrument</td>
+      <td><select name="instrument" id="instrument">
+          <option value="select" selected>Select:</option>
+          <option value="piano">Piano</option>
+          <option value="voice">Voice</option>
+          <option value="string">String</option>
+          <option value="organ">Organ</option>
+          <option value="other">Other</option>
+      </td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td><select name="location" id="location">
+          <option value="select" selected>Select:</option>
+          <option value="austin">Austin Bldg</option>
+          <option value="snow">Snow Bldg</option>
+          <option value="taylor">Taylor Bldg</option>
+          <option value="hart">Hart Bldg</option>
+      </td>
+      <td>Room Number</td>
+      <td><input type=text name="room" id="room"></td>
+      <td>Time Slot</td>
+      <td><select name="time" id="time">
+          <option value="select" selected>Select:</option>
+          <option value="800am">8:00 am</option>
+          <option value="815am">8:15 am</option>
+          <option value="830am">8:30 am</option>
+          <option value="845am">8:45 am</option>
+          <option value="900am">9:00 am</option>
+          <option value="915am">9:15 am</option>
+          <option value="930am">9:30 am</option>
+          <option value="945am">9:45 am</option>
+          <option value="1000am">10:00 am</option>
+          <option value="1015am">10:15 am</option>
+          <option value="1030am">10:30 am</option>
+          <option value="1045am">10:45 am</option>
+          <option value="1100am">11:00 am</option>
+      </td>
+    </tr>
+    <tr>
+      <td></td><td></td>
+      <td><input type="submit" value="Register Student" onclick="getAndAdd();"></td>
+      <td><button type="button" name="Reset" onclick="clearForm()">Clear Form</button></td>
+    </tr>
+  </table>
+  </form>
+  <table id="testing"></table>
+  <p id="testing2"></p>
+  <p id="testing3"></p>
+  <table id="listMusicians"></table>
+
+</body>
+</html>

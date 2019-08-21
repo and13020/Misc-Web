@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <link type="text/css" rel="stylesheet" href="assign11style.css">
+  <title>Payment Form</title>
+  <script type="text/javascript">
+    function calculate()
+    {
+      var startCity   = document.getElementById("startCity").value;
+      var startState  = document.getElementById("startState").value;
+      var endCity     = document.getElementById("endCity").value;
+      var endState    = document.getElementById("endState").value;
+      var queryString = "startCity=" + startCity + "&" + 
+                        "startState=" + startState + "&" +
+                        "endCity=" + endCity + "&" +
+                        "endState=" + endState;
+      var finalQuery = "http://157.201.194.254/cgi-bin/ercanbracks/mileage/mileageAjaxJSON?" + queryString;
+      
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var myObj = JSON.parse(this.responseText);
+          var length = myObj.trip.tmode.length;
+          var tmodes = "";
+          for(i=0; i < length; i++){
+            tmodes += myObj.trip.tmode[i];
+            tmodes += " ";
+          }
+          var message = startCity + ", " + startState + " and " + endCity + ", " + endState + " are approximately " + myObj.trip.miles + " away from each other.<br/> Available modes of transportation are: " + tmodes;
+          document.getElementById("result").innerHTML = message;
+        }
+      };
+    xhttp.open("GET", finalQuery, true);
+    xhttp.send();
+  }
+    
+  function validate()
+  {
+    <!-- Tests if the various states are filled out with two char values -->
+    var startState = document.getElementById("startState").value;
+    var match = startState.search(/\w{2}/);
+    if(match != '0') 
+    {
+      document.getElementById("startState").focus();
+      document.getElementById("startState").select();
+      alert("Please fill out the start state correctly");
+      return false;
+    }    
+    var endState = document.getElementById("endState").value;
+    var match = endState.search(/\w{2}/);
+    if(match != '0')
+    {
+      document.getElementById("endState").focus();
+      document.getElementById("endState").select();
+      return false;
+    }
+    
+    <!-- Tests if the city fields have some input -->
+    var startCity = document.getElementById("startCity").value;
+    var match = startCity.search(/\w{1,}/);
+    if(match != '0') 
+    {
+      document.getElementById("startCity").focus();
+      document.getElementById("startCity").select();
+      return false;
+    }
+    var endCity = document.getElementById("endCity").value;
+    var match = endCity.search(/\w{1,}/);
+    if(match != '0')
+    {
+      document.getElementById("endCity").focus();
+      document.getElementById("endCity").select();
+      return false;
+    }
+    
+    <!-- If all the validation tests pass, then commence -->
+    calculate();
+  
+  } 
+  </script>
+</head>
+<body>
+  <h1>Mileage Calculator</h1>
+  <p>Please enter two major cities to find travel information:</p>
+  <table>
+    <tr>
+      <td>Start City: </td><td><input type="text" name="startCity" id="startCity"/></td>
+      <td>Start State:</td><td><input type="text" name="startState" id="startState"/></td>
+    </tr>
+    <tr>
+      <td>End City: </td><td><input type="text" name="endCity" id="endCity"/></td>
+      <td>End State:</td><td><input type="text" name="endState" id="endState"/></td>
+    </tr>
+    <tr>
+      <button type="button" onclick="validate();">Calculate</button>
+    </tr>
+  </table>
+  <p id="result"></p>
+</body>
+</html>

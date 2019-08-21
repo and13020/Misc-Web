@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Form</title>
+  <link type="text/css" rel="stylesheet" href="assign05style.css">
+  <script type="text/javascript">
+    function phoneCheck();
+    function calculatePrice(form);
+    function cardCheck();
+    function dateCheck();
+    function validate();
+    function focus();
+  </script>
+</head>
+<body>
+  <h1>Payment Form</h1>
+  <form action="" id="form" name="form">
+    First name:<input type="text" id="firstname" placeholder="John"/><br />
+    Last name: <input type="text" id="lastname" placeholder="Doe"/><br />
+    Address: <input type="textarea" id="address" rows="3" cols="50"/><br />
+    Phone:<input type="text" id="phone" placeholder="000-000-0000" onblur="phoneCheck()"><br />
+  <hr/>
+  <p class="red" id="text1"></p>
+    
+  <table>
+    <tr>
+      <th>Please select your meal type:</th>
+    </tr>
+    <tr>
+      <td><input type="checkbox" name="food" value="fries" onchange="calculatePrice(this.form)";/>French Fries: $1.00
+    </tr>
+    <tr>
+      <td><input type="checkbox" name="food" value="kidsMeal" onchange="calculatePrice(this.form)";/>Kid's Meal: $2.50
+    </tr>
+    <tr>
+      <td><input type="checkbox" name="food" value="adultsMeal" onchange="calculatePrice(this.form)";/>Combo Meal: $6.50
+    </tr>
+    <tr>
+      <td><input type="checkbox" name="food" value="drink" onchange="calculatePrice(this.form)";/>Drink: $1.25
+    </tr>
+  </table>
+  <p id="priceDisplay"></p>
+    
+  <h2>Credit Card</h2>
+  <input type="radio" name="card"> Mastercard <br/>
+  <input type="radio" name="card"> Visa <br/>
+  <input type="radio" name="card"> American Express   <br/><br/>
+    
+  Credit Card Number:<input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" id="card" onblur="cardCheck()";/>
+  <br/>
+  <p class="red" id="text2"></p>
+    
+  Credit Card Exp Date:<input type="text" placeholder="DD-MM-YYYY" id="date" onblur="dateCheck()";/>
+  <p class="red" id="text3"></p>
+    
+  <br/>
+  <input type="submit" onclick="return validate();" value="Submit">
+  <input type="reset"  onclick="return focus();"    value ="Reset"><br/>
+  </form>
+  
+<script type="text/javascript">
+  /*********************
+  * Validate
+  *********************/
+  function validate()
+  {
+    var checkFirst = document.getElementById("firstname").value;
+    var match = checkFirst.search(/\w{2,}/);
+    if(match != '0') 
+    {
+      document.getElementById("firstname").focus();
+      document.getElementById("firstname").select();
+      document.getElementById("text1").innerHTML = "";
+      document.getElementById("text2").innerHTML = "";
+      document.getElementById("text3").innerHTML = "";
+      return false;
+    }
+    var checkLast = document.getElementById("lastname").value;
+    match = checkLast.search(/\w{2,}/);
+    if(match != '0')
+    {
+      document.getElementById("lastname").focus();
+      document.getElementById("lastname").select();
+      document.getElementById("text1").innerHTML = "";
+      document.getElementById("text2").innerHTML = "";
+      document.getElementById("text3").innerHTML = "";
+      return false;
+    }
+    var checkAddress = document.getElementById("address").value;
+    match = checkAddress.search(/\w{2,}/);
+    if(match != '0')
+    {
+      document.getElementById("address").focus();
+      document.getElementById("address").select();
+      document.getElementById("text1").innerHTML = "";
+      document.getElementById("text2").innerHTML = "";
+      document.getElementById("text3").innerHTML = "";
+      return false;
+    }
+    if(phoneCheck()){
+      if(cardCheck()){
+        if(dateCheck()){
+          return true;
+        }
+        else {
+          document.getElementById("text1").innerHTML = "";
+          document.getElementById("text2").innerHTML = "";
+          return false;
+        }
+      }
+      else {
+        document.getElementById("text1").innerHTML = "";
+        document.getElementById("text3").innerHTML = "";
+        return false;
+      }
+    }
+    else {
+      document.getElementById("text2").innerHTML = "";
+      document.getElementById("text3").innerHTML = "";
+      return false;
+    }
+  }
+  
+  /*********************
+  * Focus on first name after reset
+  *********************/
+  function focus()
+  {
+    return true;
+    document.getElementById("phone").focus();
+  }
+  
+  /*********************
+  * Calculate price
+  *********************/
+  function calculatePrice(form)
+  {
+    var total = 0;
+    for(count = 0; count < 4; count++)
+    {
+      if(form.food[count].checked)
+      {
+        switch(count)
+        {
+          case 0: total += 1;    break;
+          case 1: total += 2.5;  break;
+          case 2: total += 6.5;  break;
+          case 3: total += 1.25; break;
+        }
+      }
+    }
+    document.getElementById("priceDisplay").innerHTML = "Total is: " + total;
+  }
+  
+  /*********************
+  * Validate phone #
+  *********************/
+  function phoneCheck()
+  {
+    var check = document.getElementById("phone").value;
+    var match = check.search(/^\d{3}-\d{3}-\d{4}$/);
+    if(match == '0')
+    {
+      document.getElementById("text1").innerHTML = "";
+      return true;
+    }
+    else
+    {
+     document.getElementById("text1").innerHTML = "Invalid phone number";
+     document.getElementById("phone").focus();
+     document.getElementById("phone").select();
+     return false;
+    }
+  }
+  
+  /*********************
+  * Validates cc
+  *********************/
+  function cardCheck()
+  {
+    var check = document.getElementById("card").value;
+    var match = check.search(/^\d{4}-\d{4}-\d{4}-\d{4}$/);
+    if(match == '0')
+    {
+      document.getElementById("text2").innerHTML = "";
+      return true;
+    }
+    else
+    {
+      document.getElementById("text2").innerHTML = "Invalid credit card";
+      document.getElementById("date").focus();
+     document.getElementById("date").select();
+      return false;
+    }
+  }
+  
+  /*********************
+  * Validate Card Date
+  *********************/
+  function dateCheck()
+  {
+    var check = document.getElementById("date").value;
+    var match = check.search(/^[1-3]\d-(0[1-9]|1[0-2])-20(1[7-9]|[2-9]\d)$/);
+    if(match == '0')
+    {
+      document.getElementById("text3").innerHTML = "";
+      return true;
+    }
+    else
+    {
+     document.getElementById("text3").innerHTML = "Invalid date";
+     document.getElementById("date").focus();
+     document.getElementById("date").select();
+     return false;
+    }
+  }
+  
+</script>
+</body>
+</html>
